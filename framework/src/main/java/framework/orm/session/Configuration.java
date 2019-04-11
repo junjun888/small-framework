@@ -2,6 +2,11 @@ package framework.orm.session;
 
 import framework.orm.executor.Executor;
 import framework.orm.executor.SimpleExecutor;
+import framework.orm.mapping.MappedStatement;
+import framework.orm.plugin.InterceptorChain;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @description
@@ -12,10 +17,14 @@ public class Configuration {
 
     protected ExecutorType defaultExecutorType = ExecutorType.SIMPLE;
 
+    protected final InterceptorChain interceptorChain = new InterceptorChain();
+
+    protected final Map<String, MappedStatement> mappedStatements = new HashMap();
+
     public Executor newExecutor(ExecutorType executorType) {
         executorType = executorType == null ? defaultExecutorType : executorType;
 
-        Executor executor;
+        Executor executor = null;
         if (ExecutorType.BATCH == executorType) {
             // TODO
         } else if (ExecutorType.REUSE == executorType) {
@@ -29,5 +38,10 @@ public class Configuration {
 
     public ExecutorType getDefaultExecutorType() {
         return defaultExecutorType;
+    }
+
+
+    public MappedStatement getMappedStatement(String id) {
+        return mappedStatements.get(id);
     }
 }

@@ -1,5 +1,7 @@
 package framework.orm.session;
 
+import java.util.List;
+
 /**
  * @description
  * @author: huangwenjun
@@ -8,4 +10,8 @@ package framework.orm.session;
 public interface SqlSession {
 
     <T> T selectOne(String statement);
+
+    <T> T selectOne(String statement, Object parameter);
+
+    <E> List<E> selectList(String statement, Object parameter);
 }
