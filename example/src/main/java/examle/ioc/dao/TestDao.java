@@ -1,4 +1,4 @@
-package examle.dao;
+package examle.ioc.dao;
 
 import framework.ioc.annotation.Dao;
 

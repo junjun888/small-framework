@@ -1,6 +1,6 @@
-package examle.service;
+package examle.ioc.service;
 
-import examle.dao.TestDao;
+import examle.ioc.dao.TestDao;
 import framework.ioc.annotation.Autowired;
 import framework.ioc.annotation.Service;
 

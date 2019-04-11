@@ -1,6 +1,6 @@
-package examle.controller;
+package examle.ioc.controller;
 
-import examle.service.TestService;
+import examle.ioc.service.TestService;
 import framework.ioc.annotation.Autowired;
 import framework.ioc.annotation.Controller;
 

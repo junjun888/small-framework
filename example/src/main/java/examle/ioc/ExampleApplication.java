@@ -1,6 +1,6 @@
-package examle;
+package examle.ioc;
 
-import examle.controller.TestController;
+import examle.ioc.controller.TestController;
 import framework.ApplicationContext;
 import framework.SmallApplication;
 
