@@ -3,6 +3,7 @@ package framework.orm.executor;
 import framework.orm.executor.statement.StatementHandler;
 import framework.orm.mapping.MappedStatement;
 import framework.orm.session.Configuration;
+import framework.orm.statement.SimpleStatementHandler;
 import sun.plugin2.main.server.ResultHandler;
 
 import java.sql.SQLException;
@@ -25,13 +26,8 @@ public class SimpleExecutor implements Executor {
     @Override
     public <E> List<E> query(MappedStatement ms, Object parameter, ResultHandler resultHandler) throws SQLException {
         Statement stmt = null;
-        try {
-            Configuration configuration = ms.getConfiguration();
-            StatementHandler handler = configuration.newStatementHandler( ms, parameter, resultHandler, boundSql);
-            stmt = prepareStatement(handler, ms.getStatementLog());
-            return handler.<E>query(stmt, resultHandler);
-        } finally {
-            closeStatement(stmt);
-        }
+        Configuration configuration = ms.getConfiguration();
+        StatementHandler handler = new SimpleStatementHandler(ms, parameter, resultHandler);
+        return handler.<E>query(stmt, resultHandler);
     }
 }
