@@ -1,6 +1,6 @@
 package framework.orm.executor.statement;
 
-import sun.plugin2.main.server.ResultHandler;
+import framework.orm.executor.resultset.ResultSetHandler;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,6 +13,6 @@ import java.util.List;
  **/
 public interface StatementHandler {
 
-    <E> List<E> query(Statement statement, ResultHandler resultHandler)
+    <E> List<E> query(Statement statement, ResultSetHandler resultSetHandler)
             throws SQLException;
 }

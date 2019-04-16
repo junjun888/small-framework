@@ -1,10 +1,10 @@
 package framework.orm.executor;
 
+import framework.orm.executor.resultset.ResultSetHandler;
 import framework.orm.executor.statement.StatementHandler;
 import framework.orm.mapping.MappedStatement;
 import framework.orm.session.Configuration;
 import framework.orm.statement.SimpleStatementHandler;
-import sun.plugin2.main.server.ResultHandler;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,10 +24,10 @@ public class SimpleExecutor implements Executor {
     }
 
     @Override
-    public <E> List<E> query(MappedStatement ms, Object parameter, ResultHandler resultHandler) throws SQLException {
+    public <E> List<E> query(MappedStatement mappedStatement, Object parameter, ResultSetHandler resultSetHandler) throws SQLException {
         Statement stmt = null;
-        Configuration configuration = ms.getConfiguration();
-        StatementHandler handler = new SimpleStatementHandler(ms, parameter, resultHandler);
-        return handler.<E>query(stmt, resultHandler);
+        Configuration configuration = mappedStatement.getConfiguration();
+        StatementHandler handler = new SimpleStatementHandler(mappedStatement, parameter, resultSetHandler);
+        return handler.query(stmt, resultSetHandler);
     }
 }

@@ -11,6 +11,8 @@ public class MappedStatement {
 
     private Configuration configuration;
 
+    private Class resultType;
+
     public Configuration getConfiguration() {
         return configuration;
     }
@@ -32,6 +34,11 @@ public class MappedStatement {
 //                }
 //            }
 //        }
+        // TODO
         return null;
+    }
+
+    public Class getResultType() {
+        return resultType;
     }
 }

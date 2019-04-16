@@ -42,8 +42,8 @@ public class SimpleStatementHandler implements StatementHandler {
                ParameterHandler parameterHandler = new DefaultParameterHandler(preparedStatement);
                parameterHandler.setParameters(preparedStatement);
                preparedStatement.execute();
-               ResultSetHandler resultHandler = new DefaultResultSetHandler(mapperData.getType(),preparedStatement.getResultSet());
-               return (E) resultHandler.handle();
+               resultHandler = new DefaultResultSetHandler(mappedStatement.getResultType(),preparedStatement.getResultSet());
+               return resultHandler.handleResultSets();
           } catch (SQLException e) {
                e.printStackTrace();
           } catch (ClassNotFoundException e) {

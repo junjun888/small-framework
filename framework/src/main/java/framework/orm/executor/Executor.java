@@ -1,7 +1,7 @@
 package framework.orm.executor;
 
+import framework.orm.executor.resultset.ResultSetHandler;
 import framework.orm.mapping.MappedStatement;
-import sun.plugin2.main.server.ResultHandler;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,8 +13,8 @@ import java.util.List;
  **/
 public interface Executor {
 
-    ResultHandler NO_RESULT_HANDLER = null;
+    ResultSetHandler NO_RESULT_HANDLER = null;
 
-    <E> List<E> query(MappedStatement ms, Object parameter, ResultHandler resultHandler) throws SQLException;
+    <E> List<E> query(MappedStatement ms, Object parameter, ResultSetHandler resultSetHandler) throws SQLException;
 
 }
