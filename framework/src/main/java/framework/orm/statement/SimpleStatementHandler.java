@@ -37,14 +37,12 @@ public class SimpleStatementHandler implements StatementHandler {
         try {
             conn = getConnection();
             preparedStatement = conn.prepareStatement(mappedStatement.getBoundSql(parameter).getSql());
-            ParameterHandler parameterHandler = new DefaultParameterHandler(preparedStatement);
+            ParameterHandler parameterHandler = new DefaultParameterHandler(parameter);
             parameterHandler.setParameters(preparedStatement);
             preparedStatement.execute();
             resultHandler = new DefaultResultSetHandler(mappedStatement.getResultType(), preparedStatement.getResultSet());
             return resultHandler.handleResultSets();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {

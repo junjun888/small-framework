@@ -15,14 +15,15 @@
     <dependencies>
         <dependency>
             <groupId>org.small4j.framework</groupId>
-            <artifactId>small-framework</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.small4j.framework</groupId>
             <artifactId>framework</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+        </dependency>
+
+        <!-- mysql驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.29</version>
         </dependency>
     </dependencies>
 

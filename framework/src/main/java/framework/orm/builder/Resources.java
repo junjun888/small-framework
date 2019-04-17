@@ -14,9 +14,18 @@ package framework.orm.builder;
 import java.io.InputStream;
 
 public class Resources {
+
     public static InputStream getResourceAsStream(String xmlPath) {
         //利用类加载器将配置文件转换为二进制流
         InputStream is = Resources.class.getClassLoader().getResourceAsStream(xmlPath);
         return is;
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        InputStream resourceAsStream = Resources.getResourceAsStream("/orm/mapper/UserMapper.xml");
+        InputStream is = Resources.getResourceAsStream("MybatisConfig.xml");
+        System.out.println(resourceAsStream);
+        System.out.println(is);
     }
 }
