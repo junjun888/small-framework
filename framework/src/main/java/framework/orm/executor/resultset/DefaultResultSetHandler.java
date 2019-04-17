@@ -30,14 +30,15 @@ public class DefaultResultSetHandler<E> implements ResultSetHandler {
         try {
             ArrayList<E> resultList = new ArrayList<>();
             Object resultObject = null;
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 resultObject = new DefaultObjectFactory().create(type);
                 for (Field field : resultObject.getClass().getDeclaredFields()) {
                     setValue(resultObject, field, resultSet);
                 }
+
+                resultList.add( (E) resultObject);
             }
 
-            resultList.add( (E) resultObject);
             return resultList;
         } catch (Exception e) {
             e.printStackTrace();
