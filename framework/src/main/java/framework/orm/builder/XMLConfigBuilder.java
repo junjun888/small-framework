@@ -1,6 +1,7 @@
 package framework.orm.builder;
 
 import framework.orm.mapping.MappedStatement;
+import framework.orm.mapping.SqlSource;
 import framework.orm.mapping.StaticSqlSource;
 import framework.orm.session.Configuration;
 import org.dom4j.Document;
@@ -91,13 +92,13 @@ public class XMLConfigBuilder {
             for (Element selectNode : selectNodes) {
                 String id = selectNode.attributeValue("id");
                 String resultType = selectNode.attributeValue("resultType");
-                String sql = selectNode.getTextTrim();
+                SqlSource sqlSource = parseDynamicSqlNode(selectNode);
                 //用一个mapper对象存储以上的值
                 MappedStatement mapper = new MappedStatement();
                 mapper.setConfiguration(config);
                 mapper.setId(id);
                 mapper.setResultType(Class.forName(resultType));
-                mapper.setSqlSource(new StaticSqlSource(sql));
+                mapper.setSqlSource(sqlSource);
                 //一个mapper映射文件可以有多个select（statment），不同映射文件里，select的id可以相同
                 //所以将namespace+"."+id作为唯一标志，用于区分，并存入map集合里
                 mappers.put(namespace + "." + id, mapper);
@@ -107,5 +108,11 @@ public class XMLConfigBuilder {
             e.printStackTrace();
             throw new RuntimeException();
         }
+    }
+
+    private static SqlSource parseDynamicSqlNode(Element selectNode) {
+        String sql = selectNode.getTextTrim();
+        StaticSqlSource staticSqlSource = new StaticSqlSource(sql);
+        return staticSqlSource;
     }
 }
