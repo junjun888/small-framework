@@ -9,9 +9,13 @@ import framework.orm.session.Configuration;
  **/
 public class MappedStatement {
 
+    private String id;
+
     private Configuration configuration;
 
     private Class resultType;
+
+    private SqlSource sqlSource;
 
     public Configuration getConfiguration() {
         return configuration;
@@ -40,5 +44,29 @@ public class MappedStatement {
 
     public Class getResultType() {
         return resultType;
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
+    public void setResultType(Class resultType) {
+        this.resultType = resultType;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public SqlSource getSqlSource() {
+        return sqlSource;
+    }
+
+    public void setSqlSource(SqlSource sqlSource) {
+        this.sqlSource = sqlSource;
     }
 }

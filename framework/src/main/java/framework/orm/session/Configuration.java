@@ -15,20 +15,26 @@ import java.util.Map;
  **/
 public class Configuration {
 
+    private String username;
+
+    private String password;
+
+    private String url;
+
+    private String driver;
+
     protected ExecutorType defaultExecutorType = ExecutorType.SIMPLE;
 
     protected final InterceptorChain interceptorChain = new InterceptorChain();
 
-    protected final Map<String, MappedStatement> mappedStatements = new HashMap();
+    protected Map<String, MappedStatement> mappedStatements = new HashMap();
 
     public Executor newExecutor(ExecutorType executorType) {
         executorType = executorType == null ? defaultExecutorType : executorType;
 
         Executor executor = null;
         if (ExecutorType.BATCH == executorType) {
-            // TODO
         } else if (ExecutorType.REUSE == executorType) {
-            // TODO
         } else {
             executor = new SimpleExecutor(this);
         }
@@ -40,8 +46,43 @@ public class Configuration {
         return defaultExecutorType;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getDriver() {
+        return driver;
+    }
+
+    public void setDriver(String driver) {
+        this.driver = driver;
+    }
 
     public MappedStatement getMappedStatement(String id) {
         return mappedStatements.get(id);
+    }
+
+    public void setMappedStatements(Map<String, MappedStatement> mappedStatements) {
+        this.mappedStatements = mappedStatements;
     }
 }

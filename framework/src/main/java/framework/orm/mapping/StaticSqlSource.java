@@ -3,13 +3,13 @@ package framework.orm.mapping;
 /**
  * @description
  * @author: huangwenjun
- * @create: 2019-04-12 10:31
+ * @create: 2019-04-17 10:51
  **/
-public class BoundSql {
+public class StaticSqlSource implements  SqlSource {
 
     private String sql;
 
-    public BoundSql(String sql) {
+    public StaticSqlSource(String sql) {
         this.sql = sql;
     }
 
@@ -19,5 +19,11 @@ public class BoundSql {
 
     public void setSql(String sql) {
         this.sql = sql;
+    }
+
+
+    @Override
+    public BoundSql getBoundSql(Object parameterObject) {
+        return new BoundSql(sql);
     }
 }

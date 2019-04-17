@@ -6,11 +6,9 @@ import framework.orm.executor.resultset.DefaultResultSetHandler;
 import framework.orm.executor.resultset.ResultSetHandler;
 import framework.orm.executor.statement.StatementHandler;
 import framework.orm.mapping.MappedStatement;
+import framework.orm.session.Configuration;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -20,54 +18,52 @@ import java.util.List;
  **/
 public class SimpleStatementHandler implements StatementHandler {
 
-     private MappedStatement mappedStatement;
+    private MappedStatement mappedStatement;
 
-     private ResultSetHandler resultHandler;
+    private ResultSetHandler resultHandler;
 
-     private Object parameter;
+    private Object parameter;
 
-     public SimpleStatementHandler(MappedStatement mappedStatement, Object parameter, ResultSetHandler resultHandler) {
-          this.mappedStatement = mappedStatement;
-          this.resultHandler = resultHandler;
-          this.parameter = parameter;
-     }
+    public SimpleStatementHandler(MappedStatement mappedStatement, Object parameter, ResultSetHandler resultHandler) {
+        this.mappedStatement = mappedStatement;
+        this.resultHandler = resultHandler;
+        this.parameter = parameter;
+    }
 
-     @Override
-     public <E> List<E> query(Statement statement, ResultSetHandler resultHandler) throws SQLException {
-          Connection conn = null;
-          PreparedStatement preparedStatement = null;
-          try {
-               conn = getConnection();
-               preparedStatement = conn.prepareStatement(mappedStatement.getBoundSql(parameter).getSql());
-               ParameterHandler parameterHandler = new DefaultParameterHandler(preparedStatement);
-               parameterHandler.setParameters(preparedStatement);
-               preparedStatement.execute();
-               resultHandler = new DefaultResultSetHandler(mappedStatement.getResultType(),preparedStatement.getResultSet());
-               return resultHandler.handleResultSets();
-          } catch (SQLException e) {
-               e.printStackTrace();
-          } catch (ClassNotFoundException e) {
-               e.printStackTrace();
-          }finally {
-               try {
-                    if(preparedStatement!=null){
-                         preparedStatement.close();
-                    }
-                    if(conn!=null){
-                         conn.close();
-                    }
-               } catch (SQLException e) {
-                    e.printStackTrace();
-               }
-          }
-          return null;
-     }
+    @Override
+    public <E> List<E> query(Statement statement, ResultSetHandler resultHandler) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = getConnection();
+            preparedStatement = conn.prepareStatement(mappedStatement.getBoundSql(parameter).getSql());
+            ParameterHandler parameterHandler = new DefaultParameterHandler(preparedStatement);
+            parameterHandler.setParameters(preparedStatement);
+            preparedStatement.execute();
+            resultHandler = new DefaultResultSetHandler(mappedStatement.getResultType(), preparedStatement.getResultSet());
+            return resultHandler.handleResultSets();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
-     private Connection getConnection() throws SQLException, ClassNotFoundException {
-//          MtDataSource dataSource = configuation.getDataSource();
-//          Class.forName(dataSource.getDriver());
-//          return DriverManager.getConnection(dataSource.getUrl(),dataSource.getUserName(),dataSource.getPassWord());
-          // TODO
-          return null;
-     }
+    private Connection getConnection() throws SQLException, ClassNotFoundException {
+        Configuration configuration = mappedStatement.getConfiguration();
+        Class.forName(configuration.getDriver());
+        return DriverManager.getConnection(configuration.getUrl(), configuration.getUsername(), configuration.getPassword());
+    }
 }
